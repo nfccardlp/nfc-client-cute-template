@@ -16,6 +16,101 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Inline CSS to force override cache and styles -->
+    <style>
+        /* ------------------------------
+           FORCED OVERRIDE STYLES
+           ------------------------------ */
+        
+        /* Instagram Section Centering */
+        .insta-box-container {
+            background-color: #fff;
+            border-radius: 24px;
+            padding: 40px 20px;
+            margin: 30px 20px;
+            text-align: center !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .insta-box-title {
+            font-size: 1.5rem;
+            color: var(--color-text);
+            margin-bottom: 10px;
+            text-align: center !important;
+            width: 100%;
+        }
+
+        .insta-box-subtitle {
+            color: var(--color-text-light);
+            margin-bottom: 30px;
+            text-align: center !important;
+            width: 100%;
+        }
+
+        .insta-box-content {
+            width: 100%;
+            display: flex;
+            justify-content: center !important;
+            margin-bottom: 30px;
+        }
+
+        .insta-placeholder-card {
+            background: #f8f8f8;
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 300px;
+            border: 2px dashed #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
+
+        .insta-btn-link {
+            display: inline-flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 10px;
+            width: 100%;
+            max-width: 280px;
+            padding: 16px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white !important;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(200, 30, 100, 0.3);
+            transition: transform 0.2s;
+            font-size: 1rem;
+            margin: 0 auto; /* Force horizontal centering */
+        }
+
+        .insta-btn-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(200, 30, 100, 0.4);
+        }
+        
+        /* Ensure modal image is visible */
+        #lightbox-image {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* Ensure bookmark modal is visible */
+        .bookmark-modal-content {
+            background-color: #ffffff !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Wave Background -->
@@ -118,20 +213,20 @@
             </div>
         </section>
 
-        <!-- Instagram Section (Refactored) -->
-        <section class="insta-box-container">
-            <h2 class="insta-box-title">📸 Instagram</h2>
-            <p class="insta-box-subtitle">オフショット載せてるよ〜💕</p>
+        <!-- Instagram Section (Final Fix) -->
+        <section class="insta-box-container" style="text-align: center !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;">
+            <h2 class="insta-box-title" style="text-align: center !important; width: 100% !important;">📸 Instagram</h2>
+            <p class="insta-box-subtitle" style="text-align: center !important; width: 100% !important;">オフショット載せてるよ〜💕</p>
             
-            <div class="insta-box-content">
-                <div class="insta-placeholder-card">
-                    <div class="insta-icon-large">📷</div>
-                    <p>ここにInstagram投稿が表示されます</p>
-                    <p class="insta-note">（埋め込みコードを設定してね）</p>
+            <div class="insta-box-content" style="display: flex !important; justify-content: center !important; width: 100% !important;">
+                <div class="insta-placeholder-card" style="margin: 0 auto !important; display: flex !important; flex-direction: column !important; align-items: center !important;">
+                    <div class="insta-icon-large" style="text-align: center !important;">📷</div>
+                    <p style="text-align: center !important;">ここにInstagram投稿が表示されます</p>
+                    <p class="insta-note" style="text-align: center !important;">（埋め込みコードを設定してね）</p>
                 </div>
             </div>
             
-            <a href="https://instagram.com/aika_example" target="_blank" class="insta-btn-link">
+            <a href="https://instagram.com/aika_example" target="_blank" class="insta-btn-link" style="margin: 0 auto !important; display: inline-flex !important;">
                 <i class="fa-brands fa-instagram"></i> Instagramをチェック
             </a>
         </section>
