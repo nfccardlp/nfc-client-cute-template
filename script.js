@@ -1,21 +1,21 @@
 /**
- * NFC Landing Page - JavaScript
+ * NFC Landing Page - JavaScript (Cute Version)
  * vCard generation and download functionality
  */
 
 // Contact Information
 const contactInfo = {
-    firstName: '麗奈',
-    lastName: '',
-    firstNameEN: 'Reina',
-    lastNameEN: '',
-    title: 'Hostess at Club Diamond',
-    company: 'Club Diamond',
-    email: 'reina@club-diamond.example',
+    firstName: '愛花',
+    lastName: '山本',
+    firstNameEN: 'Aika',
+    lastNameEN: 'Yamamoto',
+    title: 'Cast at Club Venus',
+    company: 'Club Venus',
+    email: 'aika@club-venus.example',
     phone: '', // Hidden per requirements
-    url: 'https://line.me/ti/p/demo-reina',
-    location: '銀座',
-    note: '銀座Club Diamondのホステス。エレガントなおもてなしと癒しの時間をご提供いたします。店内指名・同伴・アフター・LINE相談対応可能です。'
+    url: 'https://line.me/ti/p/demo-aika',
+    location: '六本木',
+    note: '六本木Club Venusの愛花です💕 楽しい時間を一緒に過ごしましょう！LINEお待ちしてます✨'
 };
 
 /**
@@ -46,7 +46,7 @@ function generateVCard() {
  * @param {string} vcardData - vCard formatted string
  * @param {string} filename - Name of the file to download
  */
-function downloadVCard(vcardData, filename = 'reina-club-diamond.vcf') {
+function downloadVCard(vcardData, filename = 'aika-club-venus.vcf') {
     // Create a Blob from the vCard data
     const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
 
@@ -73,10 +73,10 @@ function handleVCardDownload() {
         downloadVCard(vcardData);
 
         // Show success feedback
-        showFeedback('連絡先を保存しました！', 'success');
+        showFeedback('連絡先を保存したよ💕', 'success');
     } catch (error) {
         console.error('Error generating vCard:', error);
-        showFeedback('エラーが発生しました。もう一度お試しください。', 'error');
+        showFeedback('エラーが発生しちゃった💦 もう一度試してね。', 'error');
     }
 }
 
@@ -143,41 +143,15 @@ function initSmoothScroll() {
 }
 
 /**
- * Add animation on scroll (for future enhancements)
- */
-function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-
-    // Observe service cards
-    document.querySelectorAll('.service-card').forEach(card => {
-        observer.observe(card);
-    });
-}
-
-/**
  * Video Modal Functions
  */
 function openVideoModal() {
     const modal = document.getElementById('video-modal');
-    const image = document.getElementById('modal-image');
-
+    
     if (modal) {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevent background scroll
-        
-        // Note: This will show the avatar image for now. Replace with HeyGen/D-ID video when available.
-        console.log('Showing Reina\'s avatar image - video coming soon!');
+        console.log('Showing Avatar Video Modal');
     }
 }
 
@@ -194,10 +168,16 @@ function closeVideoModal() {
  * Initialize application
  */
 function init() {
-    // Add vCard download handler (legacy support)
+    // Add vCard download handler (legacy support if button id exists)
     const vcardBtn = document.getElementById('vcard-btn');
     if (vcardBtn) {
         vcardBtn.addEventListener('click', handleVCardDownload);
+    }
+    
+    // Also bind to the new "Save Contact" button
+    const saveContactBtn = document.getElementById('save-contact-btn');
+    if (saveContactBtn) {
+        saveContactBtn.addEventListener('click', handleVCardDownload);
     }
 
     // Add bookmark guide handler
@@ -257,10 +237,7 @@ function init() {
     // Initialize smooth scroll
     initSmoothScroll();
 
-    // Initialize scroll animations (optional)
-    // initScrollAnimations();
-
-    console.log('// NFC Landing Page initialized');
+    console.log('// NFC Landing Page initialized (Cute Theme) 💕');
 }
 
 // Run initialization when DOM is ready
@@ -278,13 +255,13 @@ style.textContent = `
         top: 20px;
         right: 20px;
         padding: 1rem 1.5rem;
-        border-radius: 0.5rem;
-        font-family: var(--font-sans, sans-serif);
-        font-size: 0.9375rem;
-        font-weight: 500;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 20px; /* Rounder */
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         transform: translateX(400px);
-        transition: transform 0.3s ease;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         z-index: 1000;
     }
 
@@ -293,12 +270,12 @@ style.textContent = `
     }
 
     .feedback-success {
-        background: #000;
+        background: #FF9EAA; /* Pink */
         color: #fff;
     }
 
     .feedback-error {
-        background: #dc2626;
+        background: #FFB74D; /* Orange */
         color: #fff;
     }
 
@@ -307,6 +284,7 @@ style.textContent = `
             left: 20px;
             right: 20px;
             transform: translateY(-100px);
+            text-align: center;
         }
 
         .feedback-message.show {
@@ -315,202 +293,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-/**
- * Photo Gallery Slideshow Functions
- */
-let currentSlide = 0;
-const slideImages = [
-    { src: 'slide-1.jpg', alt: '麗奈 - ピンクドレス' },
-    { src: 'slide-2.jpg', alt: '麗奈 - ゴールドドレス' },
-    { src: 'slide-3.jpg', alt: '麗奈 - シルバードレス' },
-    { src: 'slide-4.jpg', alt: '麗奈 - ホワイトドレス' },
-    { src: 'slide-5.jpg', alt: '麗奈 - クローズアップ' }
-];
-let autoSlideInterval;
-
-function showSlide(index) {
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
-    
-    if (!slides.length) return;
-    
-    // Wrap around
-    if (index >= slides.length) currentSlide = 0;
-    if (index < 0) currentSlide = slides.length - 1;
-    else currentSlide = index;
-    
-    // Update slides
-    slides.forEach((slide, i) => {
-        slide.classList.remove('active');
-        if (i === currentSlide) {
-            slide.classList.add('active');
-        }
-    });
-    
-    // Update dots
-    dots.forEach((dot, i) => {
-        dot.classList.remove('active');
-        if (i === currentSlide) {
-            dot.classList.add('active');
-        }
-    });
-}
-
-function nextSlide() {
-    showSlide(currentSlide + 1);
-}
-
-function prevSlide() {
-    showSlide(currentSlide - 1);
-}
-
-function startAutoSlide() {
-    // Auto advance every 4 seconds
-    autoSlideInterval = setInterval(nextSlide, 4000);
-}
-
-function stopAutoSlide() {
-    if (autoSlideInterval) {
-        clearInterval(autoSlideInterval);
-    }
-}
-
-/**
- * Lightbox Functions
- */
-function openLightbox(index) {
-    const lightbox = document.getElementById('lightbox-modal');
-    const lightboxImage = document.getElementById('lightbox-image');
-    
-    if (lightbox && lightboxImage) {
-        currentSlide = index;
-        lightboxImage.src = slideImages[index].src;
-        lightboxImage.alt = slideImages[index].alt;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        stopAutoSlide();
-    }
-}
-
-function closeLightbox() {
-    const lightbox = document.getElementById('lightbox-modal');
-    if (lightbox) {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-        startAutoSlide();
-    }
-}
-
-function lightboxNext() {
-    currentSlide = (currentSlide + 1) % slideImages.length;
-    const lightboxImage = document.getElementById('lightbox-image');
-    if (lightboxImage) {
-        lightboxImage.src = slideImages[currentSlide].src;
-        lightboxImage.alt = slideImages[currentSlide].alt;
-    }
-}
-
-function lightboxPrev() {
-    currentSlide = (currentSlide - 1 + slideImages.length) % slideImages.length;
-    const lightboxImage = document.getElementById('lightbox-image');
-    if (lightboxImage) {
-        lightboxImage.src = slideImages[currentSlide].src;
-        lightboxImage.alt = slideImages[currentSlide].alt;
-    }
-}
-
-/**
- * Initialize Slideshow
- */
-function initSlideshow() {
-    // Arrow navigation
-    const prevBtn = document.querySelector('.slide-prev');
-    const nextBtn = document.querySelector('.slide-next');
-    
-    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-    
-    // Dots navigation
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            showSlide(index);
-            stopAutoSlide();
-            startAutoSlide();
-        });
-    });
-    
-    // Click on slide to open lightbox
-    const slides = document.querySelectorAll('.slide');
-    slides.forEach((slide, index) => {
-        slide.addEventListener('click', () => {
-            openLightbox(index);
-        });
-    });
-    
-    // Lightbox controls
-    const lightboxClose = document.querySelector('.lightbox-close');
-    const lightboxPrevBtn = document.querySelector('.lightbox-prev');
-    const lightboxNextBtn = document.querySelector('.lightbox-next');
-    const lightboxOverlay = document.querySelector('#lightbox-modal .modal-overlay');
-    
-    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-    if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', lightboxPrev);
-    if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', lightboxNext);
-    if (lightboxOverlay) lightboxOverlay.addEventListener('click', closeLightbox);
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        const lightbox = document.getElementById('lightbox-modal');
-        if (lightbox && lightbox.classList.contains('active')) {
-            if (e.key === 'ArrowLeft') lightboxPrev();
-            if (e.key === 'ArrowRight') lightboxNext();
-            if (e.key === 'Escape') closeLightbox();
-        }
-    });
-    
-    // Touch swipe support for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    const slideshowContainer = document.querySelector('.slideshow-container');
-    if (slideshowContainer) {
-        slideshowContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        slideshowContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-    }
-    
-    function handleSwipe() {
-        if (touchEndX < touchStartX - 50) nextSlide();
-        if (touchEndX > touchStartX + 50) prevSlide();
-    }
-    
-    // Start auto-slide
-    startAutoSlide();
-    
-    // Pause on hover
-    if (slideshowContainer) {
-        slideshowContainer.addEventListener('mouseenter', stopAutoSlide);
-        slideshowContainer.addEventListener('mouseleave', startAutoSlide);
-    }
-    
-    console.log('// Photo Gallery Slideshow initialized');
-}
-
-// Update init() to include slideshow
-const originalInit = init;
-init = function() {
-    originalInit();
-    initSlideshow();
-};
-
-// Re-run init if DOM is already loaded
-if (document.readyState !== 'loading') {
-    initSlideshow();
-}

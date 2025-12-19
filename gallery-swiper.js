@@ -1,53 +1,50 @@
 /**
  * Gallery Swiper Initialization
- * ゆっくり自動で回転するカルーセル
+ * カードスタック風エフェクト（Cards Effect）
+ * 常に回転するのではなく、カードが重なって見えるおしゃれな表示
  */
 
 const slideImages = [
-    { src: 'slide-1.jpg', alt: '麗奈 - ピンクドレス' },
-    { src: 'slide-2.jpg', alt: '麗奈 - ゴールドドレス' },
-    { src: 'slide-3.jpg', alt: '麗奈 - シルバードレス' },
-    { src: 'slide-4.jpg', alt: '麗奈 - ホワイトドレス' },
-    { src: 'slide-5.jpg', alt: '麗奈 - クローズアップ' }
+    { src: 'slide-1.jpg', alt: '愛花 - ピンクドレス' },
+    { src: 'slide-2.jpg', alt: '愛花 - 浴衣姿' },
+    { src: 'slide-3.jpg', alt: '愛花 - カジュアル' },
+    { src: 'slide-4.jpg', alt: '愛花 - バースデー' },
+    { src: 'slide-5.jpg', alt: '愛花 - クローズアップ' }
 ];
 
 // Swiper初期化
 const gallerySwiper = new Swiper('.gallery-swiper', {
-    // ゆっくり自動スクロール
-    autoplay: {
-        delay: 0, // 遅延なし
-        disableOnInteraction: false, // 操作後も継続
-    },
-    speed: 8000, // 8秒かけてゆっくりスライド
-    loop: true, // 無限ループ
-    
-    // 両サイドの画像が見えるように
-    centeredSlides: true,
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    
-    // スワイプ操作
-    touchRatio: 1,
+    // カードエフェクト
+    effect: 'cards',
     grabCursor: true,
     
-    // ドットナビゲーション
+    // カードエフェクトのオプション
+    cardsEffect: {
+        perSlideOffset: 8, // カードのずらし幅
+        perSlideRotate: 2, // 回転角度
+        rotate: true,
+        slideShadows: false, // 影を消してフラットに
+    },
+    
+    // 自動再生
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+    
+    // ループ
+    loop: true,
+    
+    // ページネーション
     pagination: {
         el: '.swiper-pagination',
         clickable: true,
+        dynamicBullets: true,
     },
     
-    // エフェクト
-    effect: 'slide',
-    
-    // レスポンシブ設定
-    breakpoints: {
-        320: {
-            spaceBetween: 15,
-        },
-        768: {
-            spaceBetween: 30,
-        },
-    },
+    // レスポンシブ調整（必要に応じて）
+    centeredSlides: true,
+    slidesPerView: 'auto',
 });
 
 // 画像クリックでLightbox表示
@@ -56,7 +53,10 @@ function initGalleryLightbox() {
     
     slides.forEach((slide, index) => {
         slide.addEventListener('click', () => {
-            openLightbox(index);
+            // loopモードの場合、複製されたスライドがあるため、
+            // data-swiper-slide-indexを使って正しいインデックスを取得するか
+            // 単純にalt属性などで一致させる
+            openLightbox(index % slideImages.length);
         });
     });
 }
@@ -68,6 +68,9 @@ function openLightbox(index) {
     const lightbox = document.getElementById('lightbox-modal');
     const lightboxImage = document.getElementById('lightbox-image');
     
+    // 安全策: インデックスが範囲外なら0にする
+    if (index >= slideImages.length) index = 0;
+    
     if (lightbox && lightboxImage) {
         lightboxImage.src = slideImages[index].src;
         lightboxImage.alt = slideImages[index].alt;
@@ -75,7 +78,9 @@ function openLightbox(index) {
         document.body.style.overflow = 'hidden';
         
         // Swiperを一時停止
-        gallerySwiper.autoplay.stop();
+        if (gallerySwiper.autoplay && typeof gallerySwiper.autoplay.stop === 'function') {
+            gallerySwiper.autoplay.stop();
+        }
     }
 }
 
@@ -86,16 +91,20 @@ function closeLightbox() {
         document.body.style.overflow = '';
         
         // Swiperを再開
-        gallerySwiper.autoplay.start();
+        if (gallerySwiper.autoplay && typeof gallerySwiper.autoplay.start === 'function') {
+            gallerySwiper.autoplay.start();
+        }
     }
 }
 
 function lightboxNext() {
     const lightboxImage = document.getElementById('lightbox-image');
-    const currentIndex = slideImages.findIndex(img => img.src === lightboxImage.src.split('/').pop());
-    const nextIndex = (currentIndex + 1) % slideImages.length;
+    // 現在の画像のファイル名からインデックスを探す（簡易実装）
+    const currentSrc = lightboxImage.src.split('/').pop();
+    const currentIndex = slideImages.findIndex(img => img.src === currentSrc);
     
-    if (lightboxImage) {
+    if (currentIndex !== -1) {
+        const nextIndex = (currentIndex + 1) % slideImages.length;
         lightboxImage.src = slideImages[nextIndex].src;
         lightboxImage.alt = slideImages[nextIndex].alt;
     }
@@ -103,10 +112,11 @@ function lightboxNext() {
 
 function lightboxPrev() {
     const lightboxImage = document.getElementById('lightbox-image');
-    const currentIndex = slideImages.findIndex(img => img.src === lightboxImage.src.split('/').pop());
-    const prevIndex = (currentIndex - 1 + slideImages.length) % slideImages.length;
+    const currentSrc = lightboxImage.src.split('/').pop();
+    const currentIndex = slideImages.findIndex(img => img.src === currentSrc);
     
-    if (lightboxImage) {
+    if (currentIndex !== -1) {
+        const prevIndex = (currentIndex - 1 + slideImages.length) % slideImages.length;
         lightboxImage.src = slideImages[prevIndex].src;
         lightboxImage.alt = slideImages[prevIndex].alt;
     }
@@ -136,5 +146,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    console.log('// Gallery Swiper initialized - ゆっくり自動回転中...');
+    console.log('// Gallery Swiper initialized - Cards Effect');
 });
