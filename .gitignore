@@ -28,3 +28,6 @@ logs/
 
 # OS
 Thumbs.db
+
+# Large original video files (use optimized versions)
+hero-video.mp4
